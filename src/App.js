@@ -1,41 +1,30 @@
 import React, { useState } from 'react';
 
-// const App = () => {
-
-//     const initialStates = {
-//         name: '',
-//         price: 1000,
-//     };
-
-//     const [name, setName] = useState(initialStates.name);
-//     const [price, setPrice] = useState(initialStates.price);
-
-//     return (
-//         <>
-//             <p>
-//                 Now, {name} is {price} yen.
-//             </p>
-//         </>
-//     );
-// };
-
 const App = (props) => {
-    const [name, setName] = useState(props.name);
-    const [price, setPrice] = useState(props.price);
+    // 状態は object でも持てる
+    const [state, setState] = useState(props);
 
-    const reset = () => {
-        setPrice(props.price);
-        setName(props.name);
-    };
+    // Now, {state.name} is {state.price} yen. とたびたび state. としているのでリファクタリングする
+    const { name, price } = state;
 
     return (
         <p>
             Now, {name} is {price} yen.
-            <button onClick={() => setPrice(price + 1)}>+1</button>
-            <button onClick={() => setPrice(price - 1)}>-1</button>
-            <button onClick={reset}>Reset</button>
-            {/* 入力時のイベントを拾う */}
-            <input value={name} onChange={(e) => setName(e.target.value)} />
+            {/* state を展開して渡す */}
+            <button onClick={() => setState({ ...state, price: price + 1 })}>
+                +1
+            </button>
+            <button onClick={() => setState({ ...state, price: price - 1 })}>
+                -1
+            </button>
+            <button onClick={() => setState(props)}>Reset</button>
+            <input
+                value={name}
+                onChange={(e) => {
+                    console.log(state); // {name: "aa", price: 1000}
+                    return setState({ ...state, name: e.target.value });
+                }}
+            />
         </p>
     );
 };
