@@ -10,7 +10,7 @@ import AppContext from '../contexts/AppContext';
 import reducer from '../reducers';
 
 const App = (props) => {
-    const initialState = { events: [] };
+    const initialState = { events: [], operationLogs: [] };
     const [state, dispatch] = useReducer(reducer, initialState);
     // console.log(state, ' from App.js');
 
