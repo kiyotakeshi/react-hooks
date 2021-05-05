@@ -34,6 +34,8 @@ const App = (props) => {
         dispatch({ type: 'DELETE_ALL_EVENTS' });
     };
 
+    const unCreatable = title === '' || body === '';
+
     return (
         <>
             <div className="container-fluid">
@@ -58,12 +60,19 @@ const App = (props) => {
                             onChange={(e) => setBody(e.target.value)}
                         />
                     </div>
-                    <button className="btn btn-primary" onClick={addEvent}>
+                    <button
+                        className="btn btn-primary"
+                        onClick={addEvent}
+                        // この true/false を切り替えることでボタンを押せるかを制御する
+                        disabled={unCreatable}
+                    >
                         Create Event
                     </button>
                     <button
                         className="btn btn-danger"
                         onClick={deleteAllEvents}
+                        // event がない場合は押せないようにする
+                        disabled={state.length === 0}
                     >
                         Delete All Events
                     </button>
