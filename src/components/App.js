@@ -4,6 +4,7 @@ import React, { useState, useReducer } from 'react';
 // Module not found: Can't resolve 'jquery' in
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+import Event from './Event';
 import reducer from '../reducers';
 
 const App = (props) => {
@@ -70,31 +71,10 @@ const App = (props) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {state.map((event, index) => {
-                            const id = event.id;
-                            const handleClickDeleteButton = () => {
-                                dispatch({
-                                    type: 'DELETE_EVENT',
-                                    id: id,
-                                });
-                            };
-                            return (
-                                <tr key={index}>
-                                    <td>{id}</td>
-                                    <td>{event.title}</td>
-                                    <td>{event.body}</td>
-                                    <td>
-                                        <button
-                                            type="button"
-                                            className="btn btn-danger"
-                                            onClick={handleClickDeleteButton}
-                                        >
-                                            削除
-                                        </button>
-                                    </td>
-                                </tr>
-                            );
-                        })}
+                        {state.map((event, index) => (
+                            // Event component で dispatch を使用するため props として渡す
+                            <Event key={index} event={event} dispatch={dispatch} />
+                        ))}
                     </tbody>
                 </table>
             </div>
