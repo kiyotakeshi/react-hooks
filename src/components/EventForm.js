@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { CREATE_EVENT, DELETE_ALL_EVENTS } from '../actions';
-// props を介して同じ state を扱えるようになった
-// <EventForm state={state} dispatch={dispatch} />
-const EventForm = ({ state, dispatch }) => {
-    // App.js と別物の state で初期化した reducer を使わない
-    // const [state, dispatch] = useReducer(reducer, []);
+import AppContext from '../contexts/AppContext';
+
+const EventForm = () => {
+    // state, dispatch は props の代わりに、 context から参照する
+    const { state, dispatch } = useContext(AppContext);
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
 

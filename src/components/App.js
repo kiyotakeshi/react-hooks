@@ -17,10 +17,10 @@ const App = (props) => {
 
     return (
         // @see https://ja.reactjs.org/docs/context.html#contextprovider
-        <AppContext.Provider value={'hello, from provider'}>
+        <AppContext.Provider value={{ state, dispatch }}>
             <div className="container-fluid">
-                <EventForm state={state} dispatch={dispatch} />
-                <Events state={state} dispatch={dispatch} />
+                <EventForm />
+                <Events />
             </div>
         </AppContext.Provider>
     );
