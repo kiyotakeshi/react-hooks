@@ -1,7 +1,13 @@
 import React, { useContext, useState } from 'react';
 
-import { CREATE_EVENT, DELETE_ALL_EVENTS } from '../actions';
+import {
+    CREATE_EVENT,
+    DELETE_ALL_EVENTS,
+    ADD_OPERATION_LOG,
+    DELETE_ALL_OPERATION_LOGS,
+} from '../actions';
 import AppContext from '../contexts/AppContext';
+import { timeCurrentISO8601 } from '../utils';
 
 const EventForm = () => {
     // state, dispatch は props の代わりに、 context から参照する
@@ -17,6 +23,11 @@ const EventForm = () => {
         // console.log('addEvent');
         // console.log({ title, body }); // {title: "aaaaaa", body: "bbbb"}
         dispatch({ type: CREATE_EVENT, title, body });
+        dispatch({
+            type: ADD_OPERATION_LOG,
+            description: 'Created event',
+            operatedAt: timeCurrentISO8601(),
+        });
         setTitle('');
         setBody('');
     };
@@ -29,6 +40,19 @@ const EventForm = () => {
         const result = window.confirm('Delete All Events, right?');
         if (result) {
             dispatch({ type: DELETE_ALL_EVENTS });
+            dispatch({
+                type: ADD_OPERATION_LOG,
+                description: 'Deleted all events',
+                operatedAt: timeCurrentISO8601(),
+            });
+        }
+    };
+
+    const deleteAllOperationLogs = (e) => {
+        e.preventDefault();
+        const result = window.confirm('Delete All Operation Logs, right?');
+        if (result) {
+            dispatch({ type: DELETE_ALL_OPERATION_LOGS });
         }
     };
 
@@ -72,6 +96,13 @@ const EventForm = () => {
                     disabled={state.events.length === 0}
                 >
                     Delete All Events
+                </button>
+                <button
+                    className="btn btn-danger"
+                    onClick={deleteAllOperationLogs}
+                    disabled={state.operationLogs.length === 0}
+                >
+                    Delete All Operation Logs
                 </button>
             </form>
         </>
