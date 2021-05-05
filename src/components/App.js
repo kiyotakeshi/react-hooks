@@ -29,6 +29,16 @@ const App = (props) => {
     // Create Event ボタンを押して、 addEvent が呼ばれたら、 state に追加される
     // console.log({ state }); // {state: Array(1)} // 0: {id: 1, title: "aa", body: "bbaa"}
 
+    const deleteAllEvents = (e) => {
+        e.preventDefault();
+        const result = window.confirm('Delete All Events, right?');
+        if (result) {
+            dispatch({ type: 'DELETE_ALL_EVENTS' });
+        }
+    };
+
+    const unCreatable = title === '' || body === '';
+
     return (
         <>
             <div className="container-fluid">
@@ -53,10 +63,20 @@ const App = (props) => {
                             onChange={(e) => setBody(e.target.value)}
                         />
                     </div>
-                    <button className="btn btn-primary" onClick={addEvent}>
+                    <button
+                        className="btn btn-primary"
+                        onClick={addEvent}
+                        // この true/false を切り替えることでボタンを押せるかを制御する
+                        disabled={unCreatable}
+                    >
                         Create Event
                     </button>
-                    <button className="btn btn-danger">
+                    <button
+                        className="btn btn-danger"
+                        onClick={deleteAllEvents}
+                        // event がない場合は押せないようにする
+                        disabled={state.length === 0}
+                    >
                         Delete All Events
                     </button>
                 </form>
@@ -73,7 +93,11 @@ const App = (props) => {
                     <tbody>
                         {state.map((event, index) => (
                             // Event component で dispatch を使用するため props として渡す
-                            <Event key={index} event={event} dispatch={dispatch} />
+                            <Event
+                                key={index}
+                                event={event}
+                                dispatch={dispatch}
+                            />
                         ))}
                     </tbody>
                 </table>
