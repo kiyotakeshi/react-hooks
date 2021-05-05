@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import EventForm from './EventForm';
 import Events from './Events';
+import AppContext from '../contexts/AppContext';
 import reducer from '../reducers';
 
 const App = (props) => {
@@ -15,12 +16,13 @@ const App = (props) => {
     // console.log(state, ' from App.js');
 
     return (
-        <>
+        // @see https://ja.reactjs.org/docs/context.html#contextprovider
+        <AppContext.Provider value={'hello, from provider'}>
             <div className="container-fluid">
                 <EventForm state={state} dispatch={dispatch} />
                 <Events state={state} dispatch={dispatch} />
             </div>
-        </>
+        </AppContext.Provider>
     );
 };
 
