@@ -1,85 +1,23 @@
-import React, { useState, useReducer } from 'react';
+import React, { useReducer } from 'react';
 
 // import bootstrap from 'bootstrap'; とすると、 import の単位が大きすぎて jquery も要求される
 // Module not found: Can't resolve 'jquery' in
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+import EventForm from './EventForm';
 import Event from './Event';
 import reducer from '../reducers';
 
 const App = (props) => {
-    // console.log('render');
-
     // const [state, dispatch] = useReducer(reducer, initialState, init)
     // 初期化時に行いたい処理はないので、第3引数は無し
     const [state, dispatch] = useReducer(reducer, []);
-    const [title, setTitle] = useState('');
-    const [body, setBody] = useState('');
-
-    const addEvent = (e) => {
-        // SPA では画面全体のリロードをしてほしくないので、 onClick のデフォルトの動作を発動させない
-        e.preventDefault();
-        // console.log('addEvent');
-        // console.log({ title, body }); // {title: "aaaaaa", body: "bbbb"}
-        dispatch({ type: 'CREATE_EVENT', title, body });
-        setTitle('');
-        setBody('');
-    };
-
-    // Create Event ボタンを押して、 addEvent が呼ばれたら、 state に追加される
-    // console.log({ state }); // {state: Array(1)} // 0: {id: 1, title: "aa", body: "bbaa"}
-
-    const deleteAllEvents = (e) => {
-        e.preventDefault();
-        const result = window.confirm('Delete All Events, right?');
-        if (result) {
-            dispatch({ type: 'DELETE_ALL_EVENTS' });
-        }
-    };
-
-    const unCreatable = title === '' || body === '';
+    // console.log(state, ' from App.js');
 
     return (
         <>
             <div className="container-fluid">
-                <h4>Events form</h4>
-                <form>
-                    <div className="form-group">
-                        {/* htmlFor で対応させることで、 Title の文字をクリックしても input がアクティブになる */}
-                        <label htmlFor="formEventTitle">Title</label>
-                        <input
-                            className="form-control"
-                            id="formEventTitle"
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="formEventBody">Body</label>
-                        <textarea
-                            className="form-control"
-                            id="formEventBody"
-                            value={body}
-                            onChange={(e) => setBody(e.target.value)}
-                        />
-                    </div>
-                    <button
-                        className="btn btn-primary"
-                        onClick={addEvent}
-                        // この true/false を切り替えることでボタンを押せるかを制御する
-                        disabled={unCreatable}
-                    >
-                        Create Event
-                    </button>
-                    <button
-                        className="btn btn-danger"
-                        onClick={deleteAllEvents}
-                        // event がない場合は押せないようにする
-                        disabled={state.length === 0}
-                    >
-                        Delete All Events
-                    </button>
-                </form>
+                <EventForm state={state} dispatch={dispatch} />
                 <h4>All Events</h4>
                 <table className="table table-hover">
                     <thead>
