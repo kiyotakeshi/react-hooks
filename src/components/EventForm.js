@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import { CREATE_EVENT, DELETE_ALL_EVENTS } from '../actions';
 // props を介して同じ state を扱えるようになった
 // <EventForm state={state} dispatch={dispatch} />
 const EventForm = ({ state, dispatch }) => {
@@ -15,7 +16,7 @@ const EventForm = ({ state, dispatch }) => {
         e.preventDefault();
         // console.log('addEvent');
         // console.log({ title, body }); // {title: "aaaaaa", body: "bbbb"}
-        dispatch({ type: 'CREATE_EVENT', title, body });
+        dispatch({ type: CREATE_EVENT, title, body });
         setTitle('');
         setBody('');
     };
@@ -27,7 +28,7 @@ const EventForm = ({ state, dispatch }) => {
         e.preventDefault();
         const result = window.confirm('Delete All Events, right?');
         if (result) {
-            dispatch({ type: 'DELETE_ALL_EVENTS' });
+            dispatch({ type: DELETE_ALL_EVENTS });
         }
     };
 

@@ -2,7 +2,7 @@ import React from 'react';
 
 import Event from './Event';
 
-const Events = ({ state, dispatch}) => {
+const Events = ({ state, dispatch }) => {
     return (
         <>
             <h4>All Events</h4>
