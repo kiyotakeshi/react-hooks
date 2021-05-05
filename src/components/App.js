@@ -10,9 +10,8 @@ import AppContext from '../contexts/AppContext';
 import reducer from '../reducers';
 
 const App = (props) => {
-    // const [state, dispatch] = useReducer(reducer, initialState, init)
-    // 初期化時に行いたい処理はないので、第3引数は無し
-    const [state, dispatch] = useReducer(reducer, []);
+    const initialState = { events: [] };
+    const [state, dispatch] = useReducer(reducer, initialState);
     // console.log(state, ' from App.js');
 
     return (
