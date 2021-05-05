@@ -4,10 +4,13 @@ import React from 'react';
 const Event = ({ dispatch, event }) => {
     const id = event.id;
     const handleClickDeleteButton = () => {
-        dispatch({
-            type: 'DELETE_EVENT',
-            id: id,
-        });
+        const result = window.confirm(`Delete event(id=${id}), right?`);
+        if (result) {
+            dispatch({
+                type: 'DELETE_EVENT',
+                id: id,
+            });
+        }
     };
     return (
         // <tr key={index}> // map で配列の要素分、 Event component を作成する際に、 key を指定しているのでこちらでは不要
